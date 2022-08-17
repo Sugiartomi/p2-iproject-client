@@ -17,7 +17,7 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><router-link to="/" >Home</router-link></li>
-          <li><router-link to="/">Report</router-link></li>
+          <li @click="isiForm"><a>Report</a></li>
           <li @click="goLogout"><a>Logout</a></li>
         </ul>
       </div>
@@ -26,11 +26,20 @@
 </template>
 
 <script>
+import { mapState, mapWritableState } from 'pinia';
+import { useCounterStore } from '../stores/counter'
+
 export default {
+  computed:{
+    ...mapWritableState( useCounterStore, ["addForm"])
+  },
   methods : {
     goLogout(){
       localStorage.clear()
       this.$router.push('/login')
+    },
+    isiForm(){
+      this.addForm = true
     }
   }
 }

@@ -10,8 +10,7 @@
         <span class="user-subhead">{{ data.User.email }}</span>
       </td>
       <td>
-        <a href="#">{{ data.title }}</a>
-      </td>
+        <a @click="changePage">{{ data.title }}</a></td>
       <td>{{ data.createdAt.substring(0, 10) }}</td>
       <td class="text-center">
         <span class="label label-default">{{ data.status }}</span>
@@ -44,5 +43,10 @@
 <script>
 export default {
   props: ["data"],
+  methods : {
+    changePage(){
+      this.$router.push(`/report/${this.data.id}`)
+    }
+  }
 };
 </script>

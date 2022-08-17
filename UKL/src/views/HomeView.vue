@@ -1,5 +1,6 @@
 <template>
 
+    <BodyPage/>
   <!-- MAIN PAGE -->
   <div class="container bootstrap snippets bootdey">
     <div class="row">
@@ -8,6 +9,9 @@
           <div class="main-box-body clearfix">
             <div class="table-responsive">
               <table class="table user-list">
+
+                <FormReport v-if="this.addForm == true"/>
+
                 <thead>
                   <tr>
                     <th><span>User</span></th>
@@ -17,7 +21,6 @@
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
-
                 <TableBodyReport v-for="el in this.reports" :data="el"/>
           
 
@@ -116,15 +119,19 @@
 
 <script>
 import { mapActions, mapState, mapWritableState } from 'pinia';
-import TableBodyReport from '../components/TableBodyReport.vue';
 import { useCounterStore } from '../stores/counter'
+import TableBodyReport from '../components/TableBodyReport.vue';
+import FormReport from '../components/FormReport.vue';
+import BodyPage from '../components/BodyPage.vue';
 
 export default {
   components : {
-    TableBodyReport
-  },
+    TableBodyReport,
+    FormReport,
+    BodyPage
+},
   computed : {
-    ...mapWritableState( useCounterStore, ["isLogin"]),
+    ...mapWritableState( useCounterStore, ["isLogin", "addForm"]),
     ...mapState( useCounterStore, ["reports"])
   },
   methods : {
