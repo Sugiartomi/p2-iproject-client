@@ -3,21 +3,28 @@
     <div id="box-signup">
       <div class="item">
         <div id="img-signup">
-          <img src="https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-commercial-flood-prevention-and-disaster-relief-scenarios-png-image_2598585.jpg" alt="" />
+          <img
+            src="https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-commercial-flood-prevention-and-disaster-relief-scenarios-png-image_2598585.jpg"
+            alt=""
+          />
         </div>
         <div id="content-signup">
-          <h1 style="margin-bottom: 20px;">create account</h1>
-          <form >
-            <input type="text" class="input-signup" placeholder="username" />
-            <input type="text" class="input-signup" placeholder="email" />
-            <input type="text" class="input-signup" placeholder="password" />
-            <br/>
+          <h1 style="margin-bottom: 20px">create account</h1>
+          <form @submit.prevent="goRegister">
+            <input type="text" class="input-signup" placeholder="username" v-model="this.input.username"/>
+            <input type="text" class="input-signup" placeholder="email" v-model="this.input.email"/>
+            <input type="text" class="input-signup" placeholder="password" v-model="this.input.password"/>
+            <br />
             <button class="btn-signup" type="submit">submit</button>
           </form>
 
           <p>
             already have an accout?
-            <span><RouterLink to="/login" id="btn-signin">Sign-in</RouterLink></span>
+            <span
+              ><RouterLink to="/login" id="btn-signin"
+                >Sign-in</RouterLink
+              ></span
+            >
           </p>
         </div>
       </div>
@@ -25,15 +32,33 @@
   </section>
 </template>
 
-
 <script>
+import { mapActions } from 'pinia';
+import { useCounterStore } from '../stores/counter';
 
+export default {
+  data() {
+    return {
+      input: {
+        username: "",
+        email: "",
+        password: "",
+      },
+    }
+  },
+  methods : {
+    ...mapActions(useCounterStore, ["registerHandler"]),
+    goRegister(){
+      this.registerHandler(this.input)
+    }
+  },
+  created(){
+    if(localStorage.access_token){
+      this.$router.push('/')
+    }
+  }
+};
 </script>
-
-
-
-
-
 
 <style>
 hr {
@@ -90,11 +115,9 @@ hr {
   margin-top: 50px;
 }
 
-#content-signup p{
+#content-signup p {
   margin-top: 50px;
 }
-
-
 
 .input-signup {
   color: #898aa6;

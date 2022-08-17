@@ -58,6 +58,11 @@ export default {
       let password = this.password
       this.loginHandler( username, password )
     }
+  },
+  created(){
+      if(localStorage.access_token){
+      this.$router.push('/')
+    }
   }
 }
 

@@ -1,15 +1,15 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
+import { defineStore } from "pinia";
+import axios from "axios";
 
 export const useCounterStore = defineStore({
-  id: 'counter',
+  id: "counter",
   state: () => ({
-    baseUrl : 'http://localhost:3000',
-    isLogin : false,
-    reports : []
+    baseUrl: "http://localhost:3000",
+    isLogin: false,
+    reports: [],
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2
+    doubleCount: (state) => state.counter * 2,
   },
   actions: {
     async loginHandler(username, password) {
@@ -20,27 +20,38 @@ export const useCounterStore = defineStore({
           data: { username, password },
         });
 
-        localStorage.setItem('access_token', user.data.access_token)
-        this.isLogin = true
-        this.router.push({path : '/'})
-      } catch (error) {
-        
-      }
-      
+        localStorage.setItem("access_token", user.data.access_token);
+        this.isLogin = true;
+        this.router.push({ path: "/" });
+      } catch (error) {}
     },
 
-
-    async fetchingReport(){
+    async registerHandler( input ){
       try {
-        let report = await axios({
-          method : "GET",
-          url : this.baseUrl + "/report",
-          headers : { access_token : localStorage.getItem('access_token')}
+        let user = await axios({
+          method : "POST",
+          url : this.baseUrl + '/register',
+          data : {
+            username : input.username,
+            email : input.email,
+            password : input.password
+          }
         })
-        this.reports = report.data
+        this.router.push('/login')
       } catch (error) {
         
       }
-    }
-  }
-})
+    },
+
+    async fetchingReport() {
+      try {
+        let report = await axios({
+          method: "GET",
+          url: this.baseUrl + "/report",
+          headers: { access_token: localStorage.getItem("access_token") },
+        });
+        this.reports = report.data;
+      } catch (error) {}
+    },
+  },
+});
