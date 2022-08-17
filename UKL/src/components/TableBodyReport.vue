@@ -6,16 +6,17 @@
           src="https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png"
           alt=""
         />
-        <a href="#" class="user-link">Full name 1</a>
-        <span class="user-subhead">Member</span>
-      </td>
-      <td>2013/08/12</td>
-      <td class="text-center">
-        <span class="label label-default">pending</span>
+        <a href="#" class="user-link">{{ data.User.username }}</a>
+        <span class="user-subhead">{{ data.User.email }}</span>
       </td>
       <td>
-        <a href="#">marlon@brando.com</a>
+        <a href="#">{{ data.title }}</a>
       </td>
+      <td>{{ data.createdAt.substring(0, 10) }}</td>
+      <td class="text-center">
+        <span class="label label-default">{{ data.status }}</span>
+      </td>
+
       <td style="width: 20%">
         <a href="#" class="table-link text-warning">
           <span class="fa-stack">
@@ -38,5 +39,10 @@
       </td>
     </tr>
   </tbody>
-  >
 </template>
+
+<script>
+export default {
+  props: ["data"],
+};
+</script>

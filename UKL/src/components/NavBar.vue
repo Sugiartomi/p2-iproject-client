@@ -17,7 +17,7 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><router-link to="/" >Home</router-link></li>
-          <li><router-link to="/report">Report</router-link></li>
+          <li><router-link to="/">Report</router-link></li>
           <li><router-link to="/">Contact</router-link></li>
         </ul>
       </div>

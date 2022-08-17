@@ -5,7 +5,8 @@ export const useCounterStore = defineStore({
   id: 'counter',
   state: () => ({
     baseUrl : 'http://localhost:3000',
-    isLogin : false
+    isLogin : false,
+    reports : []
   }),
   getters: {
     doubleCount: (state) => state.counter * 2
@@ -26,6 +27,20 @@ export const useCounterStore = defineStore({
         
       }
       
+    },
+
+
+    async fetchingReport(){
+      try {
+        let report = await axios({
+          method : "GET",
+          url : this.baseUrl + "/report",
+          headers : { access_token : localStorage.getItem('access_token')}
+        })
+        this.reports = report.data
+      } catch (error) {
+        
+      }
     }
   }
 })

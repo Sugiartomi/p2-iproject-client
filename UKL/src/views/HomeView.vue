@@ -11,14 +11,14 @@
                 <thead>
                   <tr>
                     <th><span>User</span></th>
+                    <th><span>Report</span></th>
                     <th><span>Created</span></th>
                     <th class="text-center"><span>Status</span></th>
-                    <th><span>Email</span></th>
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
 
-                <TableBodyReport/>
+                <TableBodyReport v-for="el in this.reports" :data="el"/>
           
 
 
@@ -115,11 +115,28 @@
 </template>
 
 <script>
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import TableBodyReport from '../components/TableBodyReport.vue';
+import { useCounterStore } from '../stores/counter'
 
 export default {
   components : {
     TableBodyReport
+  },
+  computed : {
+    ...mapWritableState( useCounterStore, ["isLogin"]),
+    ...mapState( useCounterStore, ["reports"])
+  },
+  methods : {
+    ...mapActions( useCounterStore, ["fetchingReport"])
+  },
+  created(){
+    if(localStorage.getItem('access_token')){
+      this.fetchingReport()
+      this.isLogin = true
+    } else {
+      this.$router.push('/login')
+    }
   }
 }
 </script>
