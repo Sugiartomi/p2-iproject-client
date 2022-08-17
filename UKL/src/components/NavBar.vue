@@ -18,9 +18,20 @@
         <ul class="nav navbar-nav">
           <li><router-link to="/" >Home</router-link></li>
           <li><router-link to="/">Report</router-link></li>
-          <li><router-link to="/">Contact</router-link></li>
+          <li @click="goLogout"><a>Logout</a></li>
         </ul>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods : {
+    goLogout(){
+      localStorage.clear()
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
