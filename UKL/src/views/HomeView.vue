@@ -1,17 +1,4 @@
 <template>
-  <!-- NAVBAR -->
-  
-
-
-
-
-  <!-- ASK -->
-
-
-
-
-
-  
 
   <!-- MAIN PAGE -->
   <div class="container bootstrap snippets bootdey">
@@ -30,47 +17,13 @@
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <img
-                        src="https://bootdey.com/img/Content/user_1.jpg"
-                        alt=""
-                      />
-                      <a href="#" class="user-link">Full name 1</a>
-                      <span class="user-subhead">Member</span>
-                    </td>
-                    <td>2013/08/12</td>
-                    <td class="text-center">
-                      <span class="label label-default">pending</span>
-                    </td>
-                    <td>
-                      <a href="#">marlon@brando.com</a>
-                    </td>
-                    <td style="width: 20%">
-                      <a href="#" class="table-link text-warning">
-                        <span class="fa-stack">
-                          <i class="fa fa-square fa-stack-2x"></i>
-                          <i
-                            class="fa fa-search-plus fa-stack-1x fa-inverse"
-                          ></i>
-                        </span>
-                      </a>
-                      <a href="#" class="table-link text-info">
-                        <span class="fa-stack">
-                          <i class="fa fa-square fa-stack-2x"></i>
-                          <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                        </span>
-                      </a>
-                      <a href="#" class="table-link danger">
-                        <span class="fa-stack">
-                          <i class="fa fa-square fa-stack-2x"></i>
-                          <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                        </span>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
+
+                <TableBodyReport/>
+          
+
+
+
+                  <!-- <tr>
                     <td>
                       <img
                         src="https://bootdey.com/img/Content/user_3.jpg"
@@ -147,8 +100,8 @@
                         </span>
                       </a>
                     </td>
-                  </tr>
-                </tbody>
+                  </tr> 
+                </tbody>-->
               </table>
             </div>
           </div>
@@ -161,4 +114,12 @@
   
 </template>
 
-<script></script>
+<script>
+import TableBodyReport from '../components/TableBodyReport.vue';
+
+export default {
+  components : {
+    TableBodyReport
+  }
+}
+</script>

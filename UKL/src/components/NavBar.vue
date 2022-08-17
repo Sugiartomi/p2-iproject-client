@@ -12,36 +12,13 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Grones</a>
+        <a class="navbar-brand"> <strong>U.K.L</strong> </a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li class="dropdown">
-            <a
-              href="#"
-              id="drop1"
-              data-toggle="dropdown"
-              class="dropdown-toggle"
-              role="button"
-              >Music <b class="caret"></b
-            ></a>
-            <ul role="menu" class="dropdown-menu" aria-labelledby="drop1">
-              <li role="presentation">
-                <a href="#" role="menuitem">Bootdey.com</a>
-              </li>
-              <li role="presentation">
-                <a href="#" role="menuitem">Option 2</a>
-              </li>
-              <li role="presentation">
-                <a href="#" role="menuitem">Option 3</a>
-              </li>
-              <li role="presentation">
-                <a href="#" role="menuitem">New Snippets</a>
-              </li>
-            </ul>
-          </li>
-          <li><a href="#contact">Contact</a></li>
+          <li><router-link to="/" >Home</router-link></li>
+          <li><router-link to="/report">Report</router-link></li>
+          <li><router-link to="/">Contact</router-link></li>
         </ul>
       </div>
     </div>

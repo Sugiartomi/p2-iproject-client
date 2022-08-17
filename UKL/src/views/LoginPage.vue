@@ -6,20 +6,22 @@
       </div>
       <div id="content-login">
         <h1><strong>ACT - UKL</strong></h1>
-        <form>
+        <form @submit.prevent="goLogin">
           <input
             type="text"
             class="input-login"
             placeholder="username"
+            v-model="this.username"
           />
           <input
             type="password"
             class="input-login"
             placeholder="password"
+            v-model="this.password"
           />
           <br />
 
-          <button class="btn-login">Login</button>
+          <button type="submit" class="btn-login">Login</button>
         </form>
 
         <p>
@@ -39,6 +41,25 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia';
+import { useCounterStore } from '../stores/counter'
+
+export default {
+  data(){
+    return {
+      username : "",
+      password : ""
+    }
+  },
+  methods : {
+    ...mapActions( useCounterStore, ["loginHandler"]),
+    goLogin(){
+      let username = this.username
+      let password = this.password
+      this.loginHandler( username, password )
+    }
+  }
+}
 
 </script>
 
