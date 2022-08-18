@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const useCounterStore = defineStore({
   id: "counter",
   state: () => ({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://unit-kenal-lingkungan.herokuapp.com",
     isLogin: false,
     addForm: false,
     reports: [],
@@ -29,7 +30,13 @@ export const useCounterStore = defineStore({
         this.role = user.data.role;
         this.isLogin = true;
         this.router.push({ path: "/" });
-      } catch (error) {}
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      }
     },
 
     async registerHandler(input) {
@@ -44,7 +51,14 @@ export const useCounterStore = defineStore({
           },
         });
         this.router.push("/login");
-      } catch (error) {}
+        Swal.fire("Good job!", "success register!", "success");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      }
     },
 
     async fetchingReport() {
@@ -55,7 +69,9 @@ export const useCounterStore = defineStore({
           headers: { access_token: localStorage.getItem("access_token") },
         });
         this.reports = report.data;
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     async fetchingReportById(input) {
@@ -72,7 +88,13 @@ export const useCounterStore = defineStore({
           mapUrl: report.data.mapUrl,
           survey: report.data.survey,
         };
-      } catch (error) {}
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      }
     },
 
     async addReport(input) {
@@ -90,7 +112,14 @@ export const useCounterStore = defineStore({
         });
         this.fetchingReport();
         this.addForm = false;
-      } catch (error) {}
+        Swal.fire("Good job!", "add report!", "success");
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: error.response.data.message,
+        });
+      }
     },
 
     async changeTheStatus(status, id) {
@@ -101,11 +130,13 @@ export const useCounterStore = defineStore({
           headers: { access_token: localStorage.getItem("access_token") },
           data: { status },
         });
-      } catch (error) {}
+        Swal.fire("Good job!", "ststus has been change!", "success");
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     async spiritQuote() {
-      console.log("masuk");
       let quote = await axios({
         method: "GET",
         url: this.baseUrl + `/quote`,
@@ -121,7 +152,10 @@ export const useCounterStore = defineStore({
           url: this.baseUrl + `/report/${input}`,
           headers: { access_token: localStorage.getItem("access_token") },
         });
-      } catch (error) {}
+        Swal.fire("Good job!", "report deleted!", "success");
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     handleCredentialResponse(response) {
@@ -140,7 +174,7 @@ export const useCounterStore = defineStore({
           localStorage.setItem("role", role);
           console.log(role);
           this.isLogin = true;
-          this.router.push('/')
+          this.router.push("/");
           return { code: 1, response };
         })
         .catch((err) => {
