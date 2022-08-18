@@ -2,7 +2,10 @@
   <div id="box-login">
     <div class="item">
       <div id="img-login">
-        <img src="https://www.klikwarta.com/sites/default/files/styles/photo_medium/public/article/2020/04/Longsor.jpg?itok=GFlIVqa7" alt="" />
+        <img
+          src="https://www.klikwarta.com/sites/default/files/styles/photo_medium/public/article/2020/04/Longsor.jpg?itok=GFlIVqa7"
+          alt=""
+        />
       </div>
       <div id="content-login">
         <h1><strong>ACT - UKL</strong></h1>
@@ -41,31 +44,60 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia';
-import { useCounterStore } from '../stores/counter'
+import { mapActions } from "pinia";
+import { useCounterStore } from "../stores/counter";
 
 export default {
-  data(){
+  data() {
     return {
-      username : "",
-      password : ""
+      username: "",
+      password: "",
+    };
+  },
+  methods: {
+    ...mapActions(useCounterStore, [
+      "loginHandler",
+      "handleCredentialResponse",
+    ]),
+    async loginUser() {
+      let login = await this.loginHandler(this.input);
+      if (login.code == 1) {
+        localStorage.setItem("access_token", login.result.data.access_token);
+        localStorage.setItem("username", login.result.data.username);
+        this.$router.push({ path: "/" });
+      } else {
+      }
+    },
+    handleLogingoole(response) {
+      try {
+        this.handleCredentialResponse(response);
+        this.$router.push({ path: "/" });
+      } catch (error) {}
+    },
+    goLogin() {
+      let username = this.username;
+      let password = this.password;
+      this.loginHandler(username, password);
+    },
+  },
+  created() {
+    if (localStorage.access_token) {
+      this.$router.push("/");
     }
   },
-  methods : {
-    ...mapActions( useCounterStore, ["loginHandler"]),
-    goLogin(){
-      let username = this.username
-      let password = this.password
-      this.loginHandler( username, password )
-    }
+  mounted() {
+    const cb = this.handleLogingoole;
+    google.accounts.id.initialize({
+      client_id:
+        "32456869880-80pdap0t4h8f1jegq6nn6j2h4cmgnvp1.apps.googleusercontent.com",
+      callback: cb,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-button-login"),
+      { theme: "outline", size: "large" }
+    );
   },
-  created(){
-      if(localStorage.access_token){
-      this.$router.push('/')
-    }
-  }
-}
-
+};
 </script>
 
 <style>

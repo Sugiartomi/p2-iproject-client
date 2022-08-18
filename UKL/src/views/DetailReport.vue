@@ -8,38 +8,32 @@
         >
           <div class="media-body ml-5" id="desc-case">
             <h2 class="font-weight-bold mb-4">Berita Bencana</h2>
-            <h4>Pelapor : user</h4>
+            <h4>Pelapor : {{detailReport.data.User.username}}</h4>
+            <h4>Status penanganan : {{detailReport.data.status}}</h4>
             <div class="text-muted mb-4">
               <br /><br />
-              Lokasi :
+              Lokasi : <strong>{{this.detailReport.data.location}}</strong>
               <br /><br />
-              Jumlah korban :
+              Jumlah korban : <strong>{{this.detailReport.data.victim}}</strong>
               <br /><br />
               Berita acara :
+              <br><br>
+              <p>
+                  {{this.detailReport.data.description}}
+              </p>
+              <br><br>
+                  <h2>Peta Lokasi</h2>
             </div>
-            <div class="text-muted mb-4"></div>
-            <div class="text-muted mb-4"></div>
-            <div class="text-muted mb-4">
-              Lorem ipsum dolor sit amet, nibh suavitate qualisque ut nam. Ad
-              harum primis electram duo, porro principes ei has.
-            </div>
-            <div class="text-muted mb-4">
-              Lorem ipsum dolor sit amet, nibh suavitate qualisque ut nam. Ad
-              harum primis electram duo, porro principes ei has.
-            </div>
-            <div class="text-muted mb-4">
-              Lorem ipsum dolor sit amet, nibh suavitate qualisque ut nam. Ad
-              harum primis electram duo, porro principes ei has.
-            </div>
+            
+  
           </div>
-
           <div class="mapouter">
             <div class="gmap_canvas">
               <iframe
                 width="600"
                 height="500"
                 id="gmap_canvas"
-                src="https://maps.google.com/maps?q=-7.9812,112.629&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                :src="this.detailReport.mapUrl"
                 frameborder="0"
                 scrolling="no"
                 marginheight="0"
@@ -50,29 +44,28 @@
           </div>
 
           <div class="media-body ml-5" id="desc-case">
-            <h2 class="font-weight-bold mb-4">Berita Bencana</h2>
-            <h4>Pelapor : user</h4>
+            <h2 class="font-weight-bold mb-4">Informasi Lingkungan</h2>
+            <h4>( Tanggal : {{this.detailReport.survey.date}} )</h4>
             <div class="text-muted mb-4">
               <br /><br />
-              Lokasi :
-              <br /><br />
-              Jumlah korban :
-              <br /><br />
-              Berita acara :
-            </div>
-            <div class="text-muted mb-4"></div>
-            <div class="text-muted mb-4"></div>
-            <div class="text-muted mb-4">
-              Lorem ipsum dolor sit amet, nibh suavitate qualisque ut nam. Ad
-              harum primis electram duo, porro principes ei has.
+              <p>Koordinat : {{this.detailReport.lat}},{{this.detailReport.long}}</p>
+              <p>Suhu udara tertinggi : {{this.detailReport.survey.tempmax}} °C</p>
+              <p>Suhu udara terendah : {{this.detailReport.survey.tempmin}} °C</p>
+              <p>Kelembapan udara : {{this.detailReport.survey.humidity}} RH</p>
+              <p>Kecepatan angin : {{this.detailReport.survey.windspeed}} Knots</p>
+              <p>Jarak Pandang : {{this.detailReport.survey.visibility}} NM (Nautical Meter) </p>
             </div>
             <div class="text-muted mb-4">
-              Lorem ipsum dolor sit amet, nibh suavitate qualisque ut nam. Ad
-              harum primis electram duo, porro principes ei has.
+              Cuaca : 
+              <p>{{this.detailReport.survey.description}}</p>
+
             </div>
             <div class="text-muted mb-4">
-              Lorem ipsum dolor sit amet, nibh suavitate qualisque ut nam. Ad
-              harum primis electram duo, porro principes ei has.
+              Jam kiatan rescue : <br>
+              <p>Berdasarkan perkiraan cuaca dan pergerakan matahari, kegiatan rescue sebaiknya dimuali pada pukul <strong>{{this.detailReport.survey.sunrise}}</strong> sampai dengan <strong>{{this.detailReport.survey.sunset}}</strong>, diharapkan kegiatan akan maksimal mengingat pencahaan yang masih cukup terang. Dianjurkan untuk menghentikan kegiatan jika sudah melebihi jam operasional</p>
+            </div>
+            <div class="text-muted mb-4">
+            
             </div>
           </div>
         </div>
@@ -83,16 +76,27 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { useCounterStore } from '../stores/counter';
 
 export default {
+    data(){
+        return {
+
+        }
+    },
+    computed : {
+        ...mapState( useCounterStore, ["detailReport"])
+    },
     methods : {
         ...mapActions( useCounterStore, ["fetchingReportById"])
     },
     created(){
-        console.log("masuk");
-        console.log(this.$route.path);
+        
+        let id = this.$route.path.slice(8)
+        this.fetchingReportById(id)
+
+        console.log(this.detailReport.mapUrl);
     }
 }
 </script>
@@ -101,12 +105,14 @@ export default {
 #box-1 {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   margin-top: 50px;
 }
 
 #desc-case {
+    /* background-color: aqua; */
   margin-left: 50px;
+  float:  left;
 }
 
 #img-case {
@@ -120,6 +126,8 @@ export default {
   height: 500px;
   width: 600px;
   margin-left: 50px;
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 .gmap_canvas {

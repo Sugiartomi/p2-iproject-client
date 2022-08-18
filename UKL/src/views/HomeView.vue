@@ -1,32 +1,30 @@
 <template>
 
-    <BodyPage/>
   <!-- MAIN PAGE -->
   <div class="container bootstrap snippets bootdey">
+    
     <div class="row">
       <div class="col-lg-12">
         <div class="main-box no-header clearfix">
           <div class="main-box-body clearfix">
             <div class="table-responsive">
+              <FormReport v-if="this.addForm == true" />
+
               <table class="table user-list">
-
-                <FormReport v-if="this.addForm == true"/>
-
                 <thead>
                   <tr>
                     <th><span>User</span></th>
                     <th><span>Report</span></th>
+                    <th><span>Location</span></th>
                     <th><span>Created</span></th>
                     <th class="text-center"><span>Status</span></th>
                     <th>&nbsp;</th>
                   </tr>
                 </thead>
-                <TableBodyReport v-for="el in this.reports" :data="el"/>
-          
 
+                <TableBodyReport v-for="el in this.reports" :data="el" />
 
-
-                  <!-- <tr>
+                <!-- <tr>
                     <td>
                       <img
                         src="https://bootdey.com/img/Content/user_3.jpg"
@@ -114,36 +112,35 @@
   </div>
 
   <!-- FORM -->
-  
 </template>
 
 <script>
-import { mapActions, mapState, mapWritableState } from 'pinia';
-import { useCounterStore } from '../stores/counter'
-import TableBodyReport from '../components/TableBodyReport.vue';
-import FormReport from '../components/FormReport.vue';
-import BodyPage from '../components/BodyPage.vue';
+import { mapActions, mapState, mapWritableState } from "pinia";
+import { useCounterStore } from "../stores/counter";
+import TableBodyReport from "../components/TableBodyReport.vue";
+import FormReport from "../components/FormReport.vue";
+
 
 export default {
-  components : {
+  components: {
     TableBodyReport,
     FormReport,
-    BodyPage
-},
-  computed : {
-    ...mapWritableState( useCounterStore, ["isLogin", "addForm"]),
-    ...mapState( useCounterStore, ["reports"])
   },
-  methods : {
-    ...mapActions( useCounterStore, ["fetchingReport"])
+  computed: {
+    ...mapWritableState(useCounterStore, ["isLogin", "addForm", "role"]),
+    ...mapState(useCounterStore, ["reports"]),
   },
-  created(){
-    if(localStorage.getItem('access_token')){
-      this.fetchingReport()
-      this.isLogin = true
+  methods: {
+    ...mapActions(useCounterStore, ["fetchingReport"]),
+  },
+  created() {
+    if (localStorage.getItem("access_token")) {
+      this.fetchingReport();
+      this.role = localStorage.getItem('role')
+      this.isLogin = true;
     } else {
-      this.$router.push('/login')
+      this.$router.push("/login");
     }
-  }
-}
+  },
+};
 </script>

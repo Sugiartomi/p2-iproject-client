@@ -18,6 +18,7 @@
         <ul class="nav navbar-nav">
           <li><router-link to="/" >Home</router-link></li>
           <li @click="isiForm"><a>Report</a></li>
+          <li @click="quote"><a>Get Spirit</a></li>
           <li @click="goLogout"><a>Logout</a></li>
         </ul>
       </div>
@@ -26,20 +27,27 @@
 </template>
 
 <script>
-import { mapState, mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useCounterStore } from '../stores/counter'
 
 export default {
   computed:{
-    ...mapWritableState( useCounterStore, ["addForm"])
+    ...mapWritableState( useCounterStore, ["addForm", "isLogin"])
   },
   methods : {
+    ...mapActions( useCounterStore, ["spiritQuote"]),
     goLogout(){
       localStorage.clear()
+      this.isLogin = false
       this.$router.push('/login')
     },
     isiForm(){
       this.addForm = true
+      this.$router.push('/')
+    },
+    quote(){
+      // this.spiritQuote()
+      this.$router.push('/quote')
     }
   }
 }

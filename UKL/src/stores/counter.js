@@ -8,6 +8,9 @@ export const useCounterStore = defineStore({
     isLogin: false,
     addForm: false,
     reports: [],
+    detailReport: {},
+    quotes: {},
+    role: "",
   }),
   getters: {
     doubleCount: (state) => state.counter * 2,
@@ -22,6 +25,8 @@ export const useCounterStore = defineStore({
         });
 
         localStorage.setItem("access_token", user.data.access_token);
+        localStorage.setItem("role", user.data.role);
+        this.role = user.data.role;
         this.isLogin = true;
         this.router.push({ path: "/" });
       } catch (error) {}
@@ -60,7 +65,13 @@ export const useCounterStore = defineStore({
           url: this.baseUrl + `/report/${input}`,
           headers: { access_token: localStorage.getItem("access_token") },
         });
-        console.log(report);
+        this.detailReport = {
+          data: report.data.data,
+          lat: report.data.lat,
+          long: report.data.long,
+          mapUrl: report.data.mapUrl,
+          survey: report.data.survey,
+        };
       } catch (error) {}
     },
 
@@ -80,6 +91,61 @@ export const useCounterStore = defineStore({
         this.fetchingReport();
         this.addForm = false;
       } catch (error) {}
+    },
+
+    async changeTheStatus(status, id) {
+      try {
+        let report = await axios({
+          method: "PATCH",
+          url: this.baseUrl + `/report/${id}`,
+          headers: { access_token: localStorage.getItem("access_token") },
+          data: { status },
+        });
+      } catch (error) {}
+    },
+
+    async spiritQuote() {
+      console.log("masuk");
+      let quote = await axios({
+        method: "GET",
+        url: this.baseUrl + `/quote`,
+        headers: { access_token: localStorage.getItem("access_token") },
+      });
+      this.quotes = quote.data;
+    },
+
+    async deleteReport(input) {
+      try {
+        let del = await axios({
+          method: "DELETE",
+          url: this.baseUrl + `/report/${input}`,
+          headers: { access_token: localStorage.getItem("access_token") },
+        });
+      } catch (error) {}
+    },
+
+    handleCredentialResponse(response) {
+      console.log("masoooooksini");
+      axios({
+        url: this.baseUrl + "/google-oauth",
+        // url: "http://localhost:3000/customers/google-oauth",
+        method: "POST",
+        headers: {
+          token_google: response.credential,
+        },
+      })
+        .then((response) => {
+          const { access_token, role, username, id } = response.data;
+          localStorage.setItem("access_token", access_token);
+          localStorage.setItem("role", role);
+          console.log(role);
+          this.isLogin = true;
+          this.router.push('/')
+          return { code: 1, response };
+        })
+        .catch((err) => {
+          return { code: 2, err };
+        });
     },
   },
 });

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginPage from '../views/LoginPage.vue'
 import SignUpPage from '../views/SignUpPage.vue'
 import DetailReport from '../views/DetailReport.vue'
+import BodyPage from "../components/BodyPage.vue";
 
 
 const router = createRouter({
@@ -27,6 +28,11 @@ const router = createRouter({
       path: "/report/:id",
       name: "DetailReport",
       component: DetailReport,
+    },
+    {
+      path: "/quote",
+      name: "quote",
+      component: BodyPage,
     },
   ],
 });
