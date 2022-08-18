@@ -159,7 +159,6 @@ export const useCounterStore = defineStore({
     },
 
     handleCredentialResponse(response) {
-      console.log("masoooooksini");
       axios({
         url: this.baseUrl + "/google-oauth",
         // url: "http://localhost:3000/customers/google-oauth",
